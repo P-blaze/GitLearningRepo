@@ -1,0 +1,81 @@
+# Git and Github   [from "apni kaksha" @youtube.com]
+
+-> version control version: like apps in play store have different versions , and as new version is
+   always updated so because of git we have an option to revert back.
+-> managing code base for a group of people
+-> here git is a distributed VCS => there is no single point of failure.
+
+?: Why use GIT?
+
+	- undo mistakes using checkpoint method
+	- distributed development-> here as there are many developers and they can have same commits this all is handled by git very gracefully.
+	- Don't mix up things -> here comes the branches concept
+	- community support
+
+Now we move on to git bash:
+	- To initialize git repository in a dir -> [git init]
+	- to add one or more files into the staging area inside the initialized directory -> [git add]
+		+ [git add <file_name>]
+		+ [git add .]
+		+ here comes the concept of staging area:
+			after this only we can commit(a.k.a checkpoint)
+			files has to be in staging area before making a checkpoint or commit
+	- [git status]-> it tells us the current status of the git initialized directory like , files present in staging area as well as files not present in staging area.
+		+ here we get message like working tree clean, this means that everything that got out from the master has merged back into it, and there is no garbage that is hanging around
+
+	-[git commit -m "commit message"] ->  this command is committing all the changes to head, and it is also creating a checkpoint , to which we can revert back to, at any time.
+		+ [git commit -m "initial commit"]-> this is the name convention for the first commit {its a rule that may or may not be followed}
+		+ after every commit we are moving into the forward direction and that state is stored into the HEAD , this head can be used to point to any of the previous commit
+		+ this all is happening in our LOCAL REPO
+
+	- [git log] -> this command helps us to see all the previous commits
+
+	-[git rm --cached <file_name>] -> suppose we added some file to the staging area , and it should not be there, because there some pending work that has to be done on it , so we can use this command to remove that file from the staging area.
+		+ also called as {Unstage}
+
+	- [git branch <branch_name>] -> (one of the main feature of git), suppose we have a current branch(initial branch)[master] from there we made a brach name dev, then from dev we made another branch anuj, then this has to be merged to dev, then dev is merged back into the master branch
+
+	-[git checkout <branch name>] -> this command is used to move from one branch to another
+
+	-[git commit -am "commit message"] -> using this command we are adding file to the staging area as well as committing the file in the current branch too.
+
+	-[git merge <branch name>] -> this command is used to merge a branch into a current branch
+
+	-------------------NOW MOVING ONTO GITHUB---------------------------------------------------------
+	- after the above practical i created a repository onto github.
+	- now to connect that remote repo to our local working directory we have to use the following command: [git remote add origin https://github.com/P-blaze/GitLearningRepo.git] --> here origin is just the name to refer to the remote repo(branch).
+		+in this cmd's output: we get a [git fetch [remote repo link] and git push [remote repo link]]
+
+	- [git remote -v] -> to see the no of remote
+	- [git push -u origin master] -> to push all the code form our master to the origin
+	- after this on github we can only see the master branch but previously we also created one dev branch , so to get this branch on to git hub :
+		+ git checkout dev
+		+ [git push] : this command is used to push all the code from local repo to the remote repo
+			between local and remote repo only two actions takes place : [pull, push] or [fetch, merge]
+		+ before pushing dev branch we will do some changes so that we can see the difference between master and dev branch.
+		+ after that [git push origin dev] : here origin[branch to push on] , [dev branch to be pushed]
+
+	-[git pull] : it pulls all the content from remote repo to our local repo,
+
+	but if we want to review first than merge the code onto our local repo then, use:
+	- [git fetch] : fetches all the updates for review, then
+	- [git merge] : merging all the differences afer proper review
+
+	[*NOTE*:: git pull  == git fetch + git merge]
+
+	- now on github we have an important tool called:  [compare and pull request]
+		+ from master i moved on to the dev branch, then i did some changes in the dev branch, now to merge them into the master, [in local repo, i can just do local merge], [but on github, as there are multiple people working on the same repo , so merge access is not given to everyone , so there they have to create a pull request to merge thier changes on to the master branch]
+		( this always happens when we are working in open source projects, here in this stage review is also done)
+
+		+ after creating then merging the pull request [if you have the rights to merge], then changes are reflected on to the origin branch in the remote repo from dev, but there is no updation in our local master branch from dev.
+
+		+ Now as we updated our remote branch, and we want those changes in our local branch then :
+		[while being in local repo -> master]: [git pull]
+
+	- there is one more important file that is on github called [.gitignore]: here we can write those files which we don't want to go git hub or even in staging area. These are very secretive file asscoiated with our local repo only.
+		+ to create a gitingnore : create a file with name :[.gitignore]
+		+ then open this file and add those file names that you don't want on the server
+
+	- Now how to perform open source contribution:
+		1. first open any project than [fork] it: this makes the exact copy of that project into our github account
+		2. then start working on it , you can clone from your github account too into your own pc using git clone in either of the mode that is eithere in https or in ssh mode. for ssh you have to setup some keys , this also remove the headache of logging in , when we do git push or git pull
